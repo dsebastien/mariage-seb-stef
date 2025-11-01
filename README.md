@@ -27,8 +27,10 @@ Use Google Fonts for the fonts
 
 ## Technologies utilisées
 
+- **React 19.2** - Bibliothèque UI avec composants modernes
+- **React Router 7.9** - Routing côté client pour navigation entre pages
 - **Vite 6** - Build tool rapide et moderne
-- **TypeScript 5.6** - Pour un code type-safe
+- **TypeScript 5.6** - Pour un code type-safe avec support JSX
 - **Tailwind CSS 4.1** - Framework CSS nouvelle génération avec configuration CSS-first
 - **Google Fonts** - Allura (noms) et Cormorant Garamond (texte)
 
@@ -51,7 +53,13 @@ npm install
 npm run dev
 ```
 
-Le site sera accessible sur `http://localhost:5173`
+Le site sera accessible sur `http://localhost:5173/mariage-seb-stef/`
+
+**Navigation :** Utilisez le menu de navigation en haut pour naviguer entre les pages :
+- **Accueil** - Page de couverture
+- **Invitation** - Date du mariage
+- **Cérémonies** - Horaires et lieux
+- **Infos** - Informations pratiques
 
 ## Build
 
@@ -60,6 +68,20 @@ npm run build
 ```
 
 Les fichiers compilés seront dans le dossier `docs/`
+
+### À propos du dossier `docs/`
+
+Le dossier **`docs/`** est le résultat du build de production et contient :
+
+- **`index.html`** - Le HTML optimisé
+- **`assets/`** - JavaScript et CSS minifiés avec hashing
+- **`images/`** - Les images statiques copiées depuis `public/images/`
+
+**Important :** Ce dossier est committé dans git (contrairement aux pratiques habituelles) car GitHub Pages peut servir directement depuis :
+- La racine du repo, OU
+- Le dossier `/docs` sur la branche main
+
+Nous utilisons l'approche `/docs` pour séparer le code source (`src/`) des fichiers compilés.
 
 ## Déploiement
 
@@ -114,29 +136,73 @@ Ce projet utilise Tailwind CSS 4 avec la nouvelle approche de configuration CSS-
   ```
 - **Plugin Vite** : `@tailwindcss/vite` pour une intégration transparente
 
+## TypeScript Strict Mode
+
+Le projet utilise une configuration TypeScript ultra-stricte pour garantir la qualité du code :
+
+### Options de Strict Checking
+- ✅ `strict: true` - Active tous les checks stricts de base
+- ✅ `noImplicitAny` - Interdit les types `any` implicites
+- ✅ `strictNullChecks` - Vérification stricte de null/undefined
+- ✅ `strictFunctionTypes` - Vérification stricte des types de fonctions
+- ✅ `strictBindCallApply` - Vérification stricte de bind/call/apply
+- ✅ `strictPropertyInitialization` - Propriétés de classe doivent être initialisées
+- ✅ `noImplicitThis` - Interdit `this` implicite
+- ✅ `alwaysStrict` - Parse en mode strict
+
+### Additional Checks
+- ✅ `noUnusedLocals` - Erreur sur variables locales inutilisées
+- ✅ `noUnusedParameters` - Erreur sur paramètres inutilisés
+- ✅ `noFallthroughCasesInSwitch` - Erreur sur case fallthrough
+- ✅ `noImplicitReturns` - Tous les chemins doivent retourner une valeur
+- ✅ `noUncheckedIndexedAccess` - Ajoute undefined aux index signatures
+- ✅ `noImplicitOverride` - Require keyword override
+- ✅ `noPropertyAccessFromIndexSignature` - Empêche l'accès direct aux propriétés indexées
+- ✅ `allowUnusedLabels: false` - Erreur sur labels inutilisés
+- ✅ `allowUnreachableCode: false` - Erreur sur code inaccessible
+- ✅ `exactOptionalPropertyTypes` - Propriétés optionnelles strictes
+- ✅ `forceConsistentCasingInFileNames` - Casse cohérente des noms de fichiers
+
+Cette configuration garantit un code type-safe et réduit les bugs potentiels.
+
 ## Structure du projet
 
 ```
 mariage-seb-stef/
 ├── src/
-│   ├── index.html        # Page principale
-│   ├── main.ts           # Entry point TypeScript
-│   └── style.css         # Tailwind CSS + configuration @theme
+│   ├── components/
+│   │   └── PageLayout.tsx   # Layout commun pour toutes les pages
+│   ├── pages/
+│   │   ├── CoverPage.tsx    # Page de couverture
+│   │   ├── InvitationPage.tsx  # Page d'invitation
+│   │   ├── CeremoniesPage.tsx  # Page des cérémonies
+│   │   └── InfoPage.tsx        # Page d'informations pratiques
+│   ├── App.tsx              # Configuration React Router
+│   ├── main.tsx             # Entry point React
+│   ├── index.html           # HTML template
+│   └── style.css            # Tailwind CSS + configuration @theme
 ├── public/
-│   └── images/           # Assets statiques (SVG/PNG)
-├── docs/                 # Build output (committé pour GitHub Pages)
+│   └── images/              # Assets statiques (SVG/PNG)
+├── docs/                    # Build output (committé pour GitHub Pages)
 ├── .github/workflows/
-│   └── deploy.yml        # CI/CD automatique
-├── vite.config.ts        # Configuration Vite (root: src)
+│   └── deploy.yml           # CI/CD automatique
+├── vite.config.ts           # Configuration Vite + React + Tailwind
 └── package.json
 ```
 
-## Structure du site
+## Architecture React
 
-- **Section 1**: Page de couverture avec les noms
-- **Section 2**: Invitation avec la date du mariage
-- **Section 3**: Détails des cérémonies (civile et religieuse)
-- **Section 4**: Informations pratiques et contacts
+Le site utilise React Router pour créer une expérience multi-pages avec routing côté client :
+
+**Routes disponibles :**
+- `/` - Page de couverture avec les noms des mariés
+- `/invitation` - Invitation avec la date du mariage (19 septembre 2026)
+- `/ceremonies` - Détails des cérémonies civile et religieuse
+- `/info` - Informations pratiques et contacts
+
+**Composants :**
+- `PageLayout` - Composant layout réutilisable avec support pour les décorations florales
+- Pages individuelles utilisant le `PageLayout` pour une structure cohérente
 
 ## Images
 
